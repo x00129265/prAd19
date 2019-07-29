@@ -27,13 +27,14 @@ namespace ProjectAd.Controllers
             _context = context;
             currentUserId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
             currentUser = _context.Users.FirstOrDefault(x => x.Id == currentUserId);
-            this.AdData = _context.Ads.Where(x => x.User.Id == currentUserId).ToList();
+            //this.AdData = _context.Ads.Where(x => x.User.Id == currentUserId).ToList();
         }
 
         // GET: Ads
         public async Task<IActionResult> Index()
         {
-            return View(AdData);
+            var applicationDbContext = _context.Ads.Where(x => x.User.Id == currentUserId);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Ads/Details/5
@@ -99,7 +100,7 @@ namespace ProjectAd.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,DateCreated,Link")] Ad ad)
+        public ActionResult Edit(int id, [Bind("Id,Title,DateCreated,Link")] Ad ad)
         {
             if (id != ad.Id)
             {
@@ -110,8 +111,9 @@ namespace ProjectAd.Controllers
             {
                 try
                 {
-                    _context.Update(ad);
-                    await _context.SaveChangesAsync();
+                    //ad.User = currentUser;
+                    _context.Ads.Update(ad).State = EntityState.Modified;
+                    _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
