@@ -20,12 +20,6 @@ namespace ProjectAd.Controllers
             return View();
         }
 
-        //public IActionResult Ads()
-        //{
-        //    return View();
-        //}
-
-
         public IActionResult Contact()
         {
             return View();

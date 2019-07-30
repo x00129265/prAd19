@@ -106,9 +106,13 @@ namespace ProjectAd
 
             app.UseMvc(routes =>
             {
+                //routes.MapRoute(
+                //    name: "Ads",
+                //    template: "{controller=Ads}/{action=/Ads}/{id?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
             });
         }
     }
