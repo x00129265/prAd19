@@ -14,13 +14,13 @@ namespace ProjectAd.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -42,11 +42,20 @@ namespace ProjectAd.Areas.Identity.Pages.Account.Manage
         {
 
             [Required]
+            [Display(Name = "Firstname")]
+            public string Firstname { get; set; }
+
+            [Required]
+            [Display(Name = "Secondname")]
+            public string Secondname { get; set; }
+
+            [Required]
             [EmailAddress]
             public string Email { get; set; }
 
             [Phone]
             [Display(Name = "Phone number")]
+            [DataType(DataType.PhoneNumber)]
             public string PhoneNumber { get; set; }
         }
 
@@ -59,6 +68,8 @@ namespace ProjectAd.Areas.Identity.Pages.Account.Manage
             }
 
             var userName = await _userManager.GetUserNameAsync(user);
+            var firstName = user.Firstname;
+            var secondName = user.Secondname;
             var email = await _userManager.GetEmailAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
@@ -66,6 +77,8 @@ namespace ProjectAd.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
+                Firstname = firstName,
+                Secondname = secondName,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -88,6 +101,35 @@ namespace ProjectAd.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            var firstName = user.Firstname;
+            if (Input.Firstname != firstName)
+            {
+                try
+                {
+                    user.Firstname = Input.Firstname;
+                }
+                catch (Exception e)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting first name for user with ID '{userId}'.");
+                }
+            }
+
+            var secondName = user.Secondname;
+            if (Input.Secondname != secondName)
+            {
+                try
+                {
+                    user.Secondname = Input.Secondname;
+                }
+                catch (Exception e)
+                {
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    throw new InvalidOperationException($"Unexpected error occurred setting second name for user with ID '{userId}'.");
+                }
+            }
+
+
             var email = await _userManager.GetEmailAsync(user);
             if (Input.Email != email)
             {
@@ -96,6 +138,8 @@ namespace ProjectAd.Areas.Identity.Pages.Account.Manage
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
                     throw new InvalidOperationException($"Unexpected error occurred setting email for user with ID '{userId}'.");
+                } else {
+                    await _userManager.SetUserNameAsync(user, Input.Email);
                 }
             }
 
