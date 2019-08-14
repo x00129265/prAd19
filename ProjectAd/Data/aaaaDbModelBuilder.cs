@@ -1,6 +1,6 @@
 ﻿namespace ProjectAd.Data
 {
-    public class DbModelBuilder
+    public class dddDbModelBuilder
     {
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectAd.Data;
 
-namespace ProjectAd.Data.Migrations
+namespace ProjectAd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -146,6 +146,8 @@ namespace ProjectAd.Data.Migrations
                     b.Property<string>("Title");
 
                     b.Property<string>("UserId");
+
+                    b.Property<double>("credit");
 
                     b.HasKey("Id");
 

@@ -10,7 +10,7 @@ using ProjectAd.Data;
 namespace ProjectAd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190730194740_init")]
+    [Migration("20190814201910_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,6 +148,8 @@ namespace ProjectAd.Migrations
                     b.Property<string>("Title");
 
                     b.Property<string>("UserId");
+
+                    b.Property<double>("credit");
 
                     b.HasKey("Id");
 

@@ -46,7 +46,7 @@ namespace ProjectAd.Controllers
                 return NotFound();
             }
 
-            var ad = AdData.FirstOrDefault(m => m.Id == id);
+            var ad = await _context.Ads.FirstOrDefaultAsync(m => m.Id == id);
             if (ad == null)
             {
                 return NotFound();
@@ -81,6 +81,7 @@ namespace ProjectAd.Controllers
                 // Create Ad
                 // Assign ad.user to current user
                 ad.User = currentUser;
+                ad.DateCreated = DateTime.Today;
                 _context.Add(ad);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -148,8 +149,7 @@ namespace ProjectAd.Controllers
                 return NotFound();
             }
 
-            var ad = await _context.Ads
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var ad = await _context.Ads.FirstOrDefaultAsync(m => m.Id == id);
             if (ad == null)
             {
                 return NotFound();
