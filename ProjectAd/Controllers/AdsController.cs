@@ -110,7 +110,7 @@ namespace ProjectAd.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind("Id,Title,DateCreated,Link")] Ad ad)
+        public ActionResult Edit(int id, [Bind(include: "Id,Title,Link")] Ad ad)
         {
             if (id != ad.Id)
             {
@@ -121,8 +121,8 @@ namespace ProjectAd.Controllers
             {
                 try
                 {
-                    //ad.User = currentUser;
                     _context.Ads.Update(ad).State = EntityState.Modified;
+                    _context.Entry(ad).Property("DateCreated").IsModified = false;
                     _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
