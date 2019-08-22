@@ -13,7 +13,7 @@ namespace ProjectAd.Models
         [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
         public string Link { get; set; }
-        public double credit { get; set; } = 0;
+        public double Credit { get; set; } = 0;
         public ApplicationUser User { get; set; }
     }
 }
