@@ -229,5 +229,13 @@ namespace ProjectAd.Controllers
             }
             return View(_target);
         }
+
+        // Credits view:
+        // GET: Ads/Credits/5
+        public IActionResult Credits(int? id)
+        {
+            ViewData["Id"] = id;
+            return View();
+        }
     }
 }

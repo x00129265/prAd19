@@ -1,0 +1,29 @@
+﻿@model ProjectAd.Models.Payment
+@{
+    ViewData["Title"] = "Credits";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Credits</h1>
+<div>
+    @Html.DisplayFor(model => model.PricePerItem)
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Payment">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Qty" class="control-label"></label>
+                <input min="0" asp-for="Qty" class="form-control" />
+                <span asp-validation-for="Qty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" disabled />
+            </div>
+            <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal Logo">
+        </form>
+    </div>
+    
+</div>
