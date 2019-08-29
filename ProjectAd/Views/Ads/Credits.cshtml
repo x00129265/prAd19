@@ -5,9 +5,11 @@
 }
 
 <h1>Credits</h1>
-<div>
-    @Html.DisplayFor(model => model.PricePerItem)
-</div>
+
+<p>Item Id: @ViewData["id"]</p>
+<p>Price per credit: @ViewData["pricePerItem"]$</p>
+
+
 
 <div class="row">
     <div class="col-md-4">
@@ -15,12 +17,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Qty" class="control-label"></label>
-                <input min="0" asp-for="Qty" class="form-control" />
+                <input min="0" value="0" asp-for="Qty" class="form-control" onkeyup='document.getElementById("price").value=(this.value*@ViewData["pricePerItem"])+"$"' />
                 <span asp-validation-for="Qty" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" disabled />
+                <input ID="price" value="0$"class="form-control" disabled />
             </div>
             <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/PP_logo_h_100x26.png" alt="PayPal Logo">
         </form>

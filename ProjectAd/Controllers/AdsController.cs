@@ -234,6 +234,8 @@ namespace ProjectAd.Controllers
         // GET: Ads/Credits/5
         public IActionResult Credits(int? id)
         {
+            double PricePerItem = 2.5;
+            ViewData["pricePerItem"] = PricePerItem;
             ViewData["Id"] = id;
             return View();
         }

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProjectAd.Models
 {
-    
+
     public class Payment
     {
         [ForeignKey("Ad")]
         private int Id { get; set; }
         private Ad Ad { get; set; }
+        [Required]
         public int Qty
         {
             get
@@ -21,11 +23,9 @@ namespace ProjectAd.Models
             set
             {
                 Qty = value;
-                Price = PricePerItem * value;
             }
         }
         public double Price { get; set; } = 0;
-        public double PricePerItem { get; } = 2.5;
-
+        
     }
 }
