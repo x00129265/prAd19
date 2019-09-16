@@ -9,23 +9,13 @@ namespace ProjectAd.Models
 {
 
     public class Payment
-    {
-        [ForeignKey("Ad")]
-        private int Id { get; set; }
-        private Ad Ad { get; set; }
-        [Required]
-        public int Qty
-        {
-            get
-            {
-                return Qty;
-            }
-            set
-            {
-                Qty = value;
-            }
-        }
+    {   
+        [Range(1, 1000, ErrorMessage = "Enter positive number of credits you want to buy (1-1000)")]
+        public int Qty { get; set; }
         public double Price { get; set; } = 0;
-        
+
+        //private int Id { get; set; }
+        //private Ad Ad { get; set; }
+        //private ApplicationUser User { get; set; }
     }
 }

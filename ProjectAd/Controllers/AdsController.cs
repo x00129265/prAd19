@@ -123,6 +123,7 @@ namespace ProjectAd.Controllers
                 {
                     _context.Ads.Update(ad).State = EntityState.Modified;
                     _context.Entry(ad).Property("DateCreated").IsModified = false;
+                    _context.Entry(ad).Property("Credit").IsModified = false;
                     _context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -238,6 +239,41 @@ namespace ProjectAd.Controllers
             ViewData["pricePerItem"] = PricePerItem;
             ViewData["Id"] = id;
             return View();
+        }
+
+        // POST: Ads/Credits/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Credits(int id, [Bind("Qty")] Payment payment)
+        {
+            if (payment == null || payment.Qty < 1)
+            {
+                return NotFound();
+            }
+            var ad = await _context.Ads.FirstOrDefaultAsync(m => m.Id == id);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    
+                    ad.Credit += payment.Qty;
+                    _context.Ads.Update(ad);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AdExists(ad.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(ad);
         }
     }
 }
